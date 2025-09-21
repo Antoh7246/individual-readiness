@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Stages of Change — Questionnaire</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- html2canvas for PDF snapshot -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <h1>Stages of Change — Questionnaire</h1>
+      <div id="headerUser" class="header-user hidden">
+        <span id="hdrName" class="hdr-name"></span>
+        <button id="btnLogout" class="ghost" title="Logout">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- AUTH -->
+    <section id="authArea" class="card">
+      <div id="registerView">
+        <h2>Register</h2>
+        <p class="muted">Create a simple account (no images).</p>
+        <input id="regName" placeholder="Full name" />
+        <input id="regUser" placeholder="Username (unique)" />
+        <input id="regPass" type="password" placeholder="Password" />
+        <div class="controls">
+          <button id="btnRegister">Register</button>
+          <button id="btnShowLogin" class="ghost">Have an account? Login</button>
+        </div>
+      </div>
+
+      <div id="loginView" class="hidden">
+        <h2>Login</h2>
+        <input id="loginUser" placeholder="Username" />
+        <input id="loginPass" type="password" placeholder="Password" />
+        <div class="controls">
+          <button id="btnLogin">Login</button>
+          <button id="btnShowRegister" class="ghost">Back to Register</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Editor & Questionnaire -->
+    <section id="surveyArea" class="card hidden">
+      <div class="flex-between">
+        <h2>Questionnaire (editable)</h2>
+        <div>
+          <button id="btnEditQuestions" class="ghost">Edit Questions</button>
+          <button id="btnTakeSurvey" class="ghost">Take Survey</button>
+        </div>
+      </div>
+
+      <!-- Editor -->
+      <div id="editorCard" class="hidden">
+        <p class="muted">Edit any question text below. Scale is fixed (1–5) and cannot be changed.</p>
+        <div id="editorContainer"></div>
+        <div class="controls" style="margin-top:12px">
+          <button id="btnSaveQuestions">Save Questions</button>
+          <button id="btnStartSurvey" class="ghost">Start Survey</button>
+        </div>
+      </div>
+
+      <!-- Survey form -->
+      <form id="surveyForm" class="hidden" onsubmit="return false;">
+        <p class="muted"><strong>Scale:</strong> 1 = Strongly Disagree, 2 = Disagree, 3 = Not Sure, 4 = Agree, 5 = Strongly Agree</p>
+        <div id="questionsContainer"></div>
+
+        <div class="controls" style="margin-top:14px">
+          <button id="btnSubmitAnswers">Submit & Generate Report</button>
+          <button id="btnClearAnswers" type="button" class="ghost">Clear Answers</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Results -->
+    <section id="resultsArea" class="card hidden">
+      <h2>Report</h2>
+      <div id="reportHeader" class="report-header">
+        <div>
+          <div id="reportName" class="report-name"></div>
+          <div id="reportUser" class="muted"></div>
+          <div id="reportDate" class="muted"></div>
+        </div>
+      </div>
+
+      <div id="scoreBoxes" class="score-grid"></div>
+
+      <div style="margin-top:12px">
+        <canvas id="stageChart" height="140"></canvas>
+      </div>
+
+      <div style="margin-top:12px" class="controls">
+        <button id="btnSaveResponse">Save Response</button>
+        <button id="btnExportCSV" class="ghost">Export This Report (CSV)</button>
+        <button id="btnDownloadPDF" class="ghost">Download PDF</button>
+        <button id="btnViewAll" class="ghost">View All Saved</button>
+        <button id="btnFinish" class="ghost">Finish / Logout</button>
+      </div>
+    </section>
+
+    <!-- All saved responses -->
+    <section id="allResponsesArea" class="card hidden">
+      <h2>Saved Responses</h2>
+      <div style="overflow:auto">
+        <table id="responsesTable" class="responses-table">
+          <thead><tr><th>Date</th><th>User</th><th>Top Stage</th><th>Total</th><th>Actions</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="controls" style="margin-top:12px">
+        <button id="btnExportAll" class="csv-btn">Export All (CSV)</button>
+        <button id="btnCloseAll" class="ghost">Close</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <small>Built for you — data stored locally in the browser (localStorage).</small>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
